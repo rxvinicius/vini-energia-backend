@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "tsnd --respawn --transpile-only src/server.ts",
+    "start": "tsnd --respawn --transpile-only src/startServer.ts",
     "test": "jest --config jest.config.ts ./tests"
   },
   "keywords": [],

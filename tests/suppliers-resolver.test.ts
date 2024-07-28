@@ -3,13 +3,9 @@ import request from "supertest";
 
 const port = 4001;
 
-beforeAll(async () => {
-  await bootstrap(port);
-}, 10000);
+beforeAll(async () => await bootstrap(port), 2000);
 
-afterAll(async () => {
-  await server?.stop();
-});
+afterAll(async () => await server?.stop());
 
 describe("Suppliers Resolver", () => {
   it("fetches suppliers based on consumption", async () => {

@@ -21,8 +21,10 @@ Este é o backend do projeto Clarke Energia, responsável por fornecer a lógica
 - Altere o número da porta no arquivo [startServer](src/startServer.ts) (caso a porta 3000 esteja em uso)
 
 ### Rodar com Docker
+
 - `docker build -t clarke-energia-backend .`
-- `docker run -p 3000:4000`
+- `docker run -p 3000:3000 clarke-energia-backend`
 
 ## Testes
+
 - `npm test` para rodar os testes

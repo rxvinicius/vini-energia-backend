@@ -35,4 +35,31 @@ describe("Suppliers Resolver", () => {
     expect(response.body.data.suppliers).toBeInstanceOf(Array);
     expect(response.body.data.suppliers.length).toBeGreaterThan(0);
   });
+
+  it("returns an error for invalid consumption value", async () => {
+    const response = await request(`http://localhost:${port}`)
+      .post("/")
+      .send({
+        query: `
+          query($consumption: Int!) {
+            suppliers(consumption: $consumption) {
+              id
+              name
+              logo
+              state
+              costPerKwh
+              minKwh
+              totalClients
+              averageRating
+            }
+          }
+        `,
+        variables: { consumption: -1 },
+      });
+
+    expect(response.body.errors).toBeDefined();
+    expect(response.body.errors[0].message).toBe(
+      "O consumo deve ser um número maior que zero"
+    );
+  });
 });

@@ -8,8 +8,20 @@ export class SuppliersResolver {
   suppliers(
     @Arg("consumption", () => Int) consumption: number
   ): SuppliersModel[] {
-    return allSuppliers
-      .filter((supplier) => consumption > supplier.minKwh)
-      .sort((a: any, b: any) => a.name.localeCompare(b.name));
+    if (consumption <= 0) {
+      throw new Error("O consumo deve ser um número maior que zero");
+    }
+
+    const filteredSuppliers = this.filterSuppliersByConsumption(consumption);
+    return this.sortSuppliersByName(filteredSuppliers);
   }
+
+  private filterSuppliersByConsumption = (
+    consumption: number
+  ): SuppliersModel[] =>
+    allSuppliers.filter((supplier) => consumption > supplier.minKwh);
+
+  private sortSuppliersByName = (
+    suppliers: SuppliersModel[]
+  ): SuppliersModel[] => suppliers.sort((a, b) => a.name.localeCompare(b.name));
 }

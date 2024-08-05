@@ -4,13 +4,13 @@ Este é o backend do projeto Clarke Energia, responsável por fornecer a lógica
 
 ## Tecnologias Utilizadas
 
-- [Node.js](https://nodejs.org/en/)
-- [TypeScript](https://www.typescriptlang.org/)
-- [Apollo Server](https://www.apollographql.com/docs/apollo-server/)
-- [GraphQL](https://graphql.org/)
-- [TypeGraphQL](https://typegraphql.com/)
-- [Jest](https://jestjs.io/)
-- [Supertest](https://github.com/visionmedia/supertest)
+- Node.js
+- TypeScript
+- Apollo Server
+- GraphQL
+- TypeGraphQL
+- Jest
+- Supertest
 
 ## Instalação
 
@@ -18,12 +18,21 @@ Este é o backend do projeto Clarke Energia, responsável por fornecer a lógica
 
 - Clone esse repositório
 - Instale as dependências com `npm install`
-- Altere o número da porta no arquivo [startServer](src/startServer.ts) (caso a porta 3000 esteja em uso)
+- `npm start` para iniciar o servidor
 
 ### Rodar com Docker
 
-- `docker build -t clarke-energia-backend .`
-- `docker run -p 3000:3000 clarke-energia-backend`
+- Criar a imagem
+
+```
+docker build -t clarke-energia-backend .
+```
+
+- Inicia um container
+
+```
+docker run -p 3000:3000 clarke-energia-backend
+```
 
 ## Testes
 

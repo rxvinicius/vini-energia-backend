@@ -13,27 +13,37 @@ describe("Suppliers Resolver", () => {
       .post("/")
       .send({
         query: `
-          query($consumption: Int!) {
-            suppliers(consumption: $consumption) {
-              id
-              name
-              logo
-              state
-              costPerKwh
-              minKwh
-              totalClients
-              averageRating
+          query($consumption: Int!, $page: Int!, $pageSize: Int!) {
+            suppliers(consumption: $consumption, page: $page, pageSize: $pageSize) {
+              data {
+                id
+                name
+                logo
+                state
+                costPerKwh
+                minKwh
+                totalClients
+                averageRating
+              }
+              page
+              pageSize
+              total
             }
           }
         `,
         variables: {
           consumption: 10000,
+          page: 1,
+          pageSize: 10,
         },
       });
 
     expect(response.body.errors).toBeUndefined();
-    expect(response.body.data.suppliers).toBeInstanceOf(Array);
-    expect(response.body.data.suppliers.length).toBeGreaterThan(0);
+    expect(response.body.data.suppliers.data).toBeInstanceOf(Array);
+    expect(response.body.data.suppliers.data.length).toBeGreaterThan(0);
+    expect(response.body.data.suppliers.page).toBe(1);
+    expect(response.body.data.suppliers.pageSize).toBe(10);
+    expect(response.body.data.suppliers.total).toBeGreaterThan(0);
   });
 
   it("returns an error for invalid consumption value", async () => {
@@ -41,20 +51,25 @@ describe("Suppliers Resolver", () => {
       .post("/")
       .send({
         query: `
-          query($consumption: Int!) {
-            suppliers(consumption: $consumption) {
-              id
-              name
-              logo
-              state
-              costPerKwh
-              minKwh
-              totalClients
-              averageRating
+          query($consumption: Int!, $page: Int!, $pageSize: Int!) {
+            suppliers(consumption: $consumption, page: $page, pageSize: $pageSize) {
+              data {
+                id
+                name
+                logo
+                state
+                costPerKwh
+                minKwh
+                totalClients
+                averageRating
+              }
+              page
+              pageSize
+              total
             }
           }
         `,
-        variables: { consumption: -1 },
+        variables: { consumption: -1, page: 1, pageSize: 10 },
       });
 
     expect(response.body.errors).toBeDefined();

@@ -3,8 +3,15 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type PaginatedSuppliers {
+  data: [SuppliersModel!]!
+  page: Int!
+  pageSize: Int!
+  total: Int!
+}
+
 type Query {
-  suppliers(consumption: Int!): [SuppliersModel!]!
+  suppliers(consumption: Int!, page: Int! = 1, pageSize: Int! = 10): PaginatedSuppliers!
 }
 
 type SuppliersModel {

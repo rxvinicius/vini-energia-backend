@@ -20,10 +20,12 @@ Este é o backend do projeto Clarke Energia, responsável por fornecer a lógica
 
 - Clone esse repositório
 - Instale as dependências com `npm install`
+- Renomeie o arquivo `.env.local` para `.env`
 - `npm start` para iniciar o servidor
 
 ### Rodar com Docker
 
+- Renomeie o arquivo `.env.local` para `.env`
 - Criar a imagem
 
 ```
@@ -33,7 +35,7 @@ docker build -t clarke-energia-backend .
 - Inicia um container
 
 ```
-docker run -p 3000:3000 clarke-energia-backend
+docker run --env-file .env -p 3000:3000 clarke-energia-backend
 ```
 
 ## Testes

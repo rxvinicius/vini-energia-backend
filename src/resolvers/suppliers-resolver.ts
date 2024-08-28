@@ -1,21 +1,23 @@
 import { Arg, Int, Query, Resolver } from "type-graphql";
-import { SuppliersModel } from "../dtos/models/suppliers-model";
+import {
+  SuppliersModel,
+  SuppliersModelMongoose,
+} from "../dtos/models/suppliers-model";
 import { PaginatedSuppliers } from "../dtos/responses/paginated-suppliers";
-import { allSuppliers } from "../data";
 
 @Resolver()
 export class SuppliersResolver {
   @Query(() => PaginatedSuppliers)
-  suppliers(
+  async suppliers(
     @Arg("consumption", () => Int) consumption: number,
     @Arg("page", () => Int, { defaultValue: 1 }) page: number,
     @Arg("pageSize", () => Int, { defaultValue: 10 }) pageSize: number
-  ): PaginatedSuppliers {
+  ): Promise<PaginatedSuppliers> {
     if (consumption <= 0) {
       throw new Error("O consumo deve ser um número maior que zero");
     }
 
-    const filteredSuppliers = this.filterSuppliersByConsumption(consumption);
+    const filteredSuppliers = await this.filterByConsumption(consumption);
     const sortedSuppliers = this.sortSuppliersByName(filteredSuppliers);
     const paginatedSuppliers = this.paginateSuppliers(
       sortedSuppliers,
@@ -31,22 +33,23 @@ export class SuppliersResolver {
     };
   }
 
-  private filterSuppliersByConsumption = (
+  private async filterByConsumption(
     consumption: number
-  ): SuppliersModel[] =>
-    allSuppliers.filter((supplier) => consumption > supplier.minKwh);
+  ): Promise<SuppliersModel[]> {
+    return SuppliersModelMongoose.find({ minKwh: { $lte: consumption } });
+  }
 
-  private sortSuppliersByName = (
-    suppliers: SuppliersModel[]
-  ): SuppliersModel[] => suppliers.sort((a, b) => a.name.localeCompare(b.name));
+  private sortSuppliersByName(suppliers: SuppliersModel[]): SuppliersModel[] {
+    return suppliers.sort((a, b) => a.name.localeCompare(b.name));
+  }
 
-  private paginateSuppliers = (
+  private paginateSuppliers(
     suppliers: SuppliersModel[],
     page: number,
     pageSize: number
-  ): SuppliersModel[] => {
+  ): SuppliersModel[] {
     const startIndex = (page - 1) * pageSize;
     const endIndex = page * pageSize;
     return suppliers.slice(startIndex, endIndex);
-  };
+  }
 }

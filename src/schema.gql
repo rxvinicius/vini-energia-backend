@@ -15,9 +15,9 @@ type Query {
 }
 
 type SuppliersModel {
+  _id: ID!
   averageRating: Float!
   costPerKwh: Float!
-  id: String!
   logo: String!
   minKwh: Int!
   name: String!

@@ -1,28 +1,41 @@
-import { Field, Int, ObjectType } from "type-graphql";
+import { Field, Int, ObjectType, ID } from "type-graphql";
+import { getModelForClass, prop, modelOptions } from "@typegoose/typegoose";
+import { Types } from "mongoose";
 
 @ObjectType()
+@modelOptions({ schemaOptions: { collection: "suppliers" } })
 export class SuppliersModel {
-  @Field()
-  id: string;
+  @Field(() => ID)
+  @prop({ type: Types.ObjectId })
+  _id!: Types.ObjectId;
 
   @Field()
-  name: string;
+  @prop()
+  name!: string;
 
   @Field()
-  logo: string;
+  @prop()
+  logo!: string;
 
   @Field()
-  state: string;
+  @prop()
+  state!: string;
 
   @Field()
-  costPerKwh: number;
+  @prop()
+  costPerKwh!: number;
 
   @Field(() => Int)
-  minKwh: number;
+  @prop()
+  minKwh!: number;
 
   @Field(() => Int)
-  totalClients: number;
+  @prop()
+  totalClients!: number;
 
   @Field()
-  averageRating: number;
+  @prop()
+  averageRating!: number;
 }
+
+export const SuppliersModelMongoose = getModelForClass(SuppliersModel);

@@ -1,11 +1,15 @@
-import { server, bootstrap } from "../src/server";
+import mongoose from "mongoose";
 import request from "supertest";
+import { server, bootstrap } from "../src/server";
 
 const port = 4001;
 
-beforeAll(async () => await bootstrap(port), 2000);
+beforeAll(async () => await bootstrap(port));
 
-afterAll(async () => await server?.stop());
+afterAll(async () => {
+  await server?.stop();
+  await mongoose.connection.close();
+});
 
 describe("Suppliers Resolver", () => {
   it("fetches suppliers based on consumption", async () => {
@@ -16,7 +20,7 @@ describe("Suppliers Resolver", () => {
           query($consumption: Int!, $page: Int!, $pageSize: Int!) {
             suppliers(consumption: $consumption, page: $page, pageSize: $pageSize) {
               data {
-                id
+                _id
                 name
                 logo
                 state
@@ -54,7 +58,7 @@ describe("Suppliers Resolver", () => {
           query($consumption: Int!, $page: Int!, $pageSize: Int!) {
             suppliers(consumption: $consumption, page: $page, pageSize: $pageSize) {
               data {
-                id
+                _id
                 name
                 logo
                 state

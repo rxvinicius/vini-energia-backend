@@ -1,8 +1,8 @@
-# Clarke Energia Backend
+# Vini Energia Backend
 
-Este é o backend do projeto Clarke Energia, responsável por fornecer a lógica de negócios.
+Este é o backend responsável por fornecer a lógica de negócios do projeto [Vini Energia](https://github.com/rxvinicius/vini-energia-frontend) que fiz durante um processo seletivo.
 
-👉 [Demo online](https://clarke-energia-backend-8da448044f10.herokuapp.com)
+👉 [Demo online](https://clarke-energia-backend-production.up.railway.app)
 
 ## Tecnologias Utilizadas
 
@@ -29,13 +29,13 @@ Este é o backend do projeto Clarke Energia, responsável por fornecer a lógica
 - Criar a imagem
 
 ```
-docker build -t clarke-energia-backend .
+docker build -t vini-energia-back .
 ```
 
 - Inicia um container
 
 ```
-docker run --env-file .env -p 3000:3000 clarke-energia-backend
+docker run --env-file .env -p 3000:3000 vini-energia-back
 ```
 
 ## Testes

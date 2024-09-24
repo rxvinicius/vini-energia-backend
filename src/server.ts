@@ -1,13 +1,12 @@
 import "reflect-metadata";
+import "dotenv/config";
 import path from "node:path";
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
 import { SuppliersResolver } from "./resolvers/suppliers-resolver";
 
-dotenv.config();
 const mongoURI = process.env.MONGO_URI;
 
 export let server: ApolloServer | null = null;

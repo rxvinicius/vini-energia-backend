@@ -2,7 +2,7 @@
 
 Este é o backend responsável por fornecer a lógica de negócios do projeto [Vini Energia](https://github.com/rxvinicius/vini-energia-frontend) que fiz durante um processo seletivo.
 
-👉 [Demo online](https://clarke-energia-backend-production.up.railway.app)
+👉 [Demo online](https://vini-energia-backend-production.up.railway.app)
 
 ## Tecnologias Utilizadas
 

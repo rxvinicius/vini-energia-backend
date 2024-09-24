@@ -70,7 +70,7 @@ Certifique-se de que os arquivos `.env` estejam no diretório raiz do projeto e 
 ### Passos para Rodar o Projeto
 
 - **Instale as dependências** com `npm install`
-- **Configure o ambiente:** Certifique-se de que o arquivo .`env.development` esteja configurado corretamente com as variáveis de ambiente necessárias, especialmente a variável `MONGO_URI` que deve apontar para o seu MongoDB local
+- **Configure o ambiente:** Certifique-se de que o arquivo `.env.development` esteja configurado corretamente com as variáveis de ambiente necessárias, especialmente a variável `MONGO_URI` que deve apontar para o seu MongoDB local
 - **Inicie o servidor** com `npm run start:dev`
 
   > Para ambientes de produção, utilize o arquivo `npm run start:prod` ao rodar o container.

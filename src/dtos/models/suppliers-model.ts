@@ -38,4 +38,6 @@ export class SuppliersModel {
   averageRating!: number;
 }
 
-export const SuppliersModelMongoose = getModelForClass(SuppliersModel);
+export const SuppliersModelMongoose = getModelForClass(SuppliersModel, {
+  schemaOptions: { versionKey: false },
+});

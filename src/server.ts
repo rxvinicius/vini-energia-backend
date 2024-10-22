@@ -11,7 +11,7 @@ const mongoURI = process.env.MONGO_URI;
 
 export let server: ApolloServer | null = null;
 
-export async function bootstrap(port: number) {
+export async function connectToMongoDB() {
   if (!mongoURI) {
     throw new Error(
       "mongoURI não foi definida. Verifique as variáveis de ambiente"
@@ -19,14 +19,16 @@ export async function bootstrap(port: number) {
   }
 
   await mongoose.connect(mongoURI);
+  console.log("📦 Conectado ao MongoDB");
+}
 
+export async function bootstrap(port: number) {
+  await connectToMongoDB();
   const schema = await buildSchema({
     resolvers: [SuppliersResolver],
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
   server = new ApolloServer({ schema });
-
   const { url } = await startStandaloneServer(server, { listen: { port } });
-
   console.log(`🚀 Server listening at: ${url}`);
 }

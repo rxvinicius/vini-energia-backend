@@ -11,6 +11,7 @@ type PaginatedSuppliers {
 }
 
 type Query {
+  status: String!
   suppliers(consumption: Int!, page: Int! = 1, pageSize: Int! = 10): PaginatedSuppliers!
 }
 

@@ -5,7 +5,9 @@ import mongoose from "mongoose";
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import { buildSchema } from "type-graphql";
-import { SuppliersResolver } from "./resolvers/suppliers-resolver";
+
+import resolvers from "./resolvers";
+import { getTokenForRequest } from "./authMiddleware";
 
 const mongoURI = process.env.MONGO_URI;
 
@@ -25,10 +27,15 @@ export async function connectToMongoDB() {
 export async function bootstrap(port: number) {
   await connectToMongoDB();
   const schema = await buildSchema({
-    resolvers: [SuppliersResolver],
+    resolvers,
     emitSchemaFile: path.resolve(__dirname, "schema.gql"),
   });
   server = new ApolloServer({ schema });
-  const { url } = await startStandaloneServer(server, { listen: { port } });
+  const { url } = await startStandaloneServer(server, {
+    context: async ({ req }) => ({
+      token: await getTokenForRequest(req),
+    }),
+    listen: { port },
+  });
   console.log(`🚀 Server listening at: ${url}`);
 }

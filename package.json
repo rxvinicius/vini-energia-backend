@@ -8,7 +8,7 @@
     "start:dev": "dotenv -e .env.development -- tsnd --respawn --transpile-only src/startServer.ts",
     "start:prod": "dotenv -e .env.production -- tsnd --respawn --transpile-only src/startServer.ts",
     "build": "tsc",
-    "test": "jest --config jest.config.ts ./tests",
+    "test": "dotenv -e .env.development -- jest --config jest.config.ts ./tests",
     "seed": "dotenv -e .env.development -- ts-node ./seeders"
   },
   "keywords": [],

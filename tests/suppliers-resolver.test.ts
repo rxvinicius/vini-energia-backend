@@ -4,6 +4,23 @@ import { server, bootstrap } from "../src/server";
 
 const port = 4001;
 
+const generateTestToken = () => {
+  if (!process.env.JWT_SECRET) {
+    throw new Error("JWT_SECRET não definido nas variáveis de ambiente");
+  }
+
+  const jwt = require("jsonwebtoken");
+  const payload = { sub: "testUser@example.com" };
+  const decodedSecret = Buffer.from(process.env.JWT_SECRET, "base64");
+
+  return jwt.sign(payload, decodedSecret, {
+    algorithm: "HS256",
+    expiresIn: "1h",
+  });
+};
+
+const token = generateTestToken();
+
 beforeAll(async () => await bootstrap(port));
 
 afterAll(async () => {
@@ -15,6 +32,7 @@ describe("Suppliers Resolver", () => {
   it("fetches suppliers based on consumption", async () => {
     const response = await request(`http://localhost:${port}`)
       .post("/")
+      .set("Authorization", `Bearer ${token}`)
       .send({
         query: `
           query($consumption: Int!, $page: Int!, $pageSize: Int!) {
@@ -53,6 +71,7 @@ describe("Suppliers Resolver", () => {
   it("returns an error for invalid consumption value", async () => {
     const response = await request(`http://localhost:${port}`)
       .post("/")
+      .set("Authorization", `Bearer ${token}`)
       .send({
         query: `
           query($consumption: Int!, $page: Int!, $pageSize: Int!) {

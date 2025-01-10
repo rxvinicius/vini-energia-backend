@@ -31,25 +31,19 @@ export async function getTokenForRequest(req: any): Promise<boolean> {
     return false;
   }
 
-  if (!authHeader) {
-    throw new GraphQLError("Token não fornecido no cabeçalho de autorização", {
+  function throwGraphQLError() {
+    throw new GraphQLError("Unauthorized", {
       extensions: { code: "UNAUTHENTICATED", http: { status: 401 } },
     });
   }
+
+  if (!authHeader) throwGraphQLError();
 
   const token = authHeader.replace("Bearer ", "").trim();
 
-  if (!token) {
-    throw new GraphQLError("Token vazio fornecido", {
-      extensions: { code: "UNAUTHENTICATED", http: { status: 401 } },
-    });
-  }
+  if (!token) throwGraphQLError();
 
-  if (!validateToken(token)) {
-    throw new GraphQLError("Token inválido ou expirado", {
-      extensions: { code: "UNAUTHENTICATED", http: { status: 401 } },
-    });
-  }
+  if (!validateToken(token)) throwGraphQLError();
 
   return true;
 }
